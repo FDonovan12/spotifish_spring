@@ -53,13 +53,13 @@ public class SongControllerApi {
         return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - delete("+id+")", "Song", songService.delete(id));
     }
 
-    @GetMapping(path = UrlRoute.URL_SONG+"/leTrucQueKevinVeut/{search}")
+    @GetMapping(path = UrlRoute.URL_LE_TRUC_QUE_KEVIN_VEUT+"/{search}")
     @JsonView(JsonViews.SongListJsonViews.class)
     public CustomResponse<List<Song>> leTrucQueKevinVeut(@PathVariable String search) {
         return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - leTrucQueKevinVeut()", "Song", songService.leTrucQueKevinVeut(search));
     }
 
-    @PostMapping(path = UrlRoute.URL_SONG+"/leTrucQueDonovanVeut")
+    @PostMapping(path = UrlRoute.URL_LE_TRUC_QUE_DONOVAN_VEUT)
     @JsonView(JsonViews.SongListJsonViews.class)
     public CustomResponse<List<Song>> leTrucQueDonovanVeut(@RequestBody LeTrucQueDonovanVeut leTrucQueDonovanVeut) {
         return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - leTrucQueDonovanVeut()", "Song", songService.leTrucQueDonovanVeut(leTrucQueDonovanVeut));

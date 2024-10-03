@@ -1,5 +1,6 @@
 package fr.donovan.spotifish.security;
 
+import fr.donovan.spotifish.mapping.UrlRoute;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -41,11 +42,18 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth ->
                 auth
-                    .requestMatchers("/api/login").permitAll()
-                    .requestMatchers("/api/register").permitAll()
+                    .requestMatchers(
+                            UrlRoute.URL_LOGIN,
+                            UrlRoute.URL_REGISTER,
+                            UrlRoute.URL_ACCOUNT_ACTIVATION+"/**",
+                            "/**"
+                    ).permitAll()
+                    .requestMatchers("/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+                    .requestMatchers(UrlRoute.URL_LE_TRUC_QUE_DONOVAN_VEUT).authenticated()
                     .requestMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("ROLE_ADMIN")
                     .requestMatchers(HttpMethod.PUT, "/api/**").hasAnyAuthority("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyAuthority("ROLE_ADMIN")
             );
 
         return http.build();

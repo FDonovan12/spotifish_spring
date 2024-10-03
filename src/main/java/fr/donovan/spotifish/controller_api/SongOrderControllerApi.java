@@ -22,17 +22,17 @@ public class SongOrderControllerApi {
     
     private SongOrderService songOrderService;
 
-    @GetMapping(path = UrlRoute.URL_SONGORDER)
-    @JsonView(JsonViews.SongOrderListJsonViews.class)
-    public CustomResponse<List<SongOrder>> list() {
-        return new CustomResponse<>(HttpStatus.OK.value(), "SongOrderControllerApi - list()", "SongOrder", this.songOrderService.findAll());
-    }
-
-    @GetMapping(path = UrlRoute.URL_SONGORDER + "/{slug}")
-    @JsonView(JsonViews.SongOrderShowJsonViews.class)
-    public CustomResponse<SongOrder> show(@PathVariable String slug) {
-        return new CustomResponse<>(HttpStatus.OK.value(), "SongOrderControllerApi - show("+slug+")", "SongOrder", this.songOrderService.getObjectBySlug(slug));
-    }
+//    @GetMapping(path = UrlRoute.URL_SONGORDER)
+//    @JsonView(JsonViews.SongOrderListJsonViews.class)
+//    public CustomResponse<List<SongOrder>> list() {
+//        return new CustomResponse<>(HttpStatus.OK.value(), "SongOrderControllerApi - list()", "SongOrder", this.songOrderService.findAll());
+//    }
+//
+//    @GetMapping(path = UrlRoute.URL_SONGORDER + "/{slug}")
+//    @JsonView(JsonViews.SongOrderShowJsonViews.class)
+//    public CustomResponse<SongOrder> show(@PathVariable String slug) {
+//        return new CustomResponse<>(HttpStatus.OK.value(), "SongOrderControllerApi - show("+slug+")", "SongOrder", this.songOrderService.getObjectBySlug(slug));
+//    }
     
     @PostMapping(path = UrlRoute.URL_SONGORDER_NEW)
     @JsonView(JsonViews.SongOrderShowJsonViews.class)
@@ -41,11 +41,11 @@ public class SongOrderControllerApi {
         return new CustomResponse<>(HttpStatus.CREATED.value(), "SongOrderControllerApi - create()", "SongOrder", songOrderService.persist(songOrderDTO));
     }
     
-    @PutMapping(path = UrlRoute.URL_SONGORDER_EDIT + "/{id}")
-    @JsonView(JsonViews.SongOrderShowJsonViews.class)
-    public CustomResponse<SongOrder> update(@Valid @RequestBody SongOrderDTO songOrderDTO, @PathVariable Long id) {
-        return new CustomResponse<>(HttpStatus.OK.value(), "SongOrderControllerApi - update("+id+")", "SongOrder", songOrderService.persist(songOrderDTO, id));
-    }
+//    @PutMapping(path = UrlRoute.URL_SONGORDER_EDIT + "/{id}")
+//    @JsonView(JsonViews.SongOrderShowJsonViews.class)
+//    public CustomResponse<SongOrder> update(@Valid @RequestBody SongOrderDTO songOrderDTO, @PathVariable Long id) {
+//        return new CustomResponse<>(HttpStatus.OK.value(), "SongOrderControllerApi - update("+id+")", "SongOrder", songOrderService.persist(songOrderDTO, id));
+//    }
     
     @DeleteMapping(path = UrlRoute.URL_SONGORDER_DELETE + "/{id}")
     public CustomResponse<Boolean> delete(@PathVariable Long id) {

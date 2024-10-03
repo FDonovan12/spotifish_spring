@@ -22,7 +22,7 @@ public class UserControllerApi {
     
     private UserService userService;
 
-    @GetMapping(path = UrlRoute.URL_USER)
+    @GetMapping(path = UrlRoute.URL_ADMIN_USER)
     @JsonView(JsonViews.UserListJsonViews.class)
     public CustomResponse<List<User>> list() {
         return new CustomResponse<>(HttpStatus.OK.value(), "UserControllerApi - list()", "User", this.userService.findAll());
@@ -33,21 +33,20 @@ public class UserControllerApi {
     public CustomResponse<User> show(@PathVariable String slug) {
         return new CustomResponse<>(HttpStatus.OK.value(), "UserControllerApi - show("+slug+")", "User", this.userService.getObjectBySlug(slug));
     }
+
+    @GetMapping(path = UrlRoute.URL_USER + "/{slugUser}/like/{slugLikeableItem}")
+    @JsonView(JsonViews.UserShowJsonViews.class)
+    public CustomResponse<User> like(@PathVariable String slugUser, @PathVariable String slugLikeableItem) {
+        return new CustomResponse<>(HttpStatus.OK.value(), "UserControllerApi - like("+slugUser+", "+slugLikeableItem+")", "User", this.userService.likeItem(slugUser, slugLikeableItem));
+    }
     
-//    @PostMapping(path = UrlRoute.URL_USER_NEW)
-//    @JsonView(JsonViews.UserShowJsonViews.class)
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public CustomResponse<User> create(@Valid @RequestBody UserDTO userDTO) {
-//        return new CustomResponse<>(HttpStatus.CREATED.value(), "UserControllerApi - create()", "User", userService.persist(userDTO));
-//    }
-    
-    @PutMapping(path = UrlRoute.URL_USER_EDIT + "/{id}")
+    @PutMapping(path = UrlRoute.URL_ADMIN_USER_EDIT + "/{id}")
     @JsonView(JsonViews.UserShowJsonViews.class)
     public CustomResponse<User> update(@Valid @RequestBody UserDTO userDTO, @PathVariable String id) {
         return new CustomResponse<>(HttpStatus.OK.value(), "UserControllerApi - update("+id+")", "User", userService.persist(userDTO, id));
     }
     
-    @DeleteMapping(path = UrlRoute.URL_USER_DELETE + "/{id}")
+    @DeleteMapping(path = UrlRoute.URL_ADMIN_USER_DELETE + "/{id}")
     public CustomResponse<Boolean> delete(@PathVariable String id) {
         return new CustomResponse<>(HttpStatus.OK.value(), "UserControllerApi - delete("+id+")", "User", userService.delete(id));
     }

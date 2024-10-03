@@ -30,7 +30,6 @@ public class User implements SluggerInterface {
     @Column(nullable = false)
     private String email;
 
-    @JsonView(JsonViewsUser.Password.class)
     @Column(nullable = false)
     private String password;
 
@@ -54,6 +53,7 @@ public class User implements SluggerInterface {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @JsonView(JsonViewsUser.ActivationCode.class)
     private String activationCode;
 
     @Column(nullable = false)

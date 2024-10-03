@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -28,6 +27,7 @@ import java.util.stream.Stream;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final LikeableItemService likeableItemService;
     private BCryptPasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
@@ -94,7 +94,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean activatedAccount(String activationCode) {
+    public User accountActivation(String activationCode) {
         Optional<User> optionalUser = userRepository.findByActivationCode(activationCode);
         if (optionalUser.isEmpty()) {
             throw new AlreadyActiveException("User", "activationCode", activationCode);
@@ -104,12 +104,12 @@ public class UserService implements UserDetailsService {
             throw new ExpiredCodeException("User", "activationCode", activationCode);
         }
         user.setActivationCode(null);
-        return true;
+        return user;
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        fr.donovan.spotifish.entity.User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Les cochons sont dans la baie"));
+        fr.donovan.spotifish.entity.User user = userRepository.findByEmailAndActivationCodeIsNull(username)
+                .orElseThrow(() -> new NotFoundSpotifishException("UserService - loadUserByUsername("+username+")", "User", username));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
@@ -122,5 +122,11 @@ public class UserService implements UserDetailsService {
         Collection<? extends GrantedAuthority> grantedAuthorities =  Stream.of(jsonRoles.split(",")).map(SimpleGrantedAuthority::new).toList();
         System.out.println("grantedAuthorities = " + grantedAuthorities);
         return grantedAuthorities;
+    }
+
+    public User likeItem(String slugUser, String slugLikeableItem) {
+        User user = getObjectBySlug(slugUser);
+        user.addLike(likeableItemService.getObjectBySlug(slugLikeableItem));
+        return user;
     }
 }
