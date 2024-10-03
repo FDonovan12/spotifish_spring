@@ -34,12 +34,12 @@ public class UserControllerApi {
         return new CustomResponse<>(HttpStatus.OK.value(), "UserControllerApi - show("+slug+")", "User", this.userService.getObjectBySlug(slug));
     }
     
-    @PostMapping(path = UrlRoute.URL_USER_NEW)
-    @JsonView(JsonViews.UserShowJsonViews.class)
-    @ResponseStatus(HttpStatus.CREATED)
-    public CustomResponse<User> create(@Valid @RequestBody UserDTO userDTO) {
-        return new CustomResponse<>(HttpStatus.CREATED.value(), "UserControllerApi - create()", "User", userService.persist(userDTO));
-    }
+//    @PostMapping(path = UrlRoute.URL_USER_NEW)
+//    @JsonView(JsonViews.UserShowJsonViews.class)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public CustomResponse<User> create(@Valid @RequestBody UserDTO userDTO) {
+//        return new CustomResponse<>(HttpStatus.CREATED.value(), "UserControllerApi - create()", "User", userService.persist(userDTO));
+//    }
     
     @PutMapping(path = UrlRoute.URL_USER_EDIT + "/{id}")
     @JsonView(JsonViews.UserShowJsonViews.class)

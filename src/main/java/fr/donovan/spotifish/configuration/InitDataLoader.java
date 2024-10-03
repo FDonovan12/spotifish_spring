@@ -64,7 +64,7 @@ public class InitDataLoader implements CommandLineRunner {
         createUser();
         createPlaylist();
         createSongOrder();
-    System.out.println(" end of init !!!");
+        System.out.println(" end of init !!!");
     }
 
     private void createUser() {
@@ -78,22 +78,35 @@ public class InitDataLoader implements CommandLineRunner {
             userDTO.setFirstName(faker.name().firstName());
             userDTO.setLastName(faker.name().lastName());
             userDTO.setBirthAt(faker.timeAndDate().birthday(18, 70));
-
+            if (i == 1) {
+                userDTO.setEmail("Bob@gmail.com");
+                userDTO.setUsername("Beaub");
+                userDTO.setFirstName("Bob");
+                userDTO.setLastName("Clampin");
+            }
             User user = userService.persist(userDTO);
-
+            if (i == 0) {
+                user.setEmail("Chloe@gmail.com");
+                user.setUsername("CHloe");
+                user.setFirstName("Chloe");
+                user.setLastName("Dupuis");
+                user.setRoles("ROLE_USER,ROLE_ADMIN");
+            }
             user.addLike(likeableItemRepository.findRandom());
             user.addLike(likeableItemRepository.findRandom());
             userRepository.saveAndFlush(user);
+
         }
         userRepository.flush();
     }
+
     private void createSong() {
         System.out.println("InitDataLoader.createSong");
         long countInsert = NB_SONG - songRepository.count();
         for (int i = 0; i < countInsert; i++) {
             SongDTO songDTO = new SongDTO();
             songDTO.setDuration(faker.number().numberBetween(150, 300));
-            songDTO.setName(faker.animal().name()+" "+ faker.color().name());
+            songDTO.setName(faker.animal().name() + " " + faker.color().name());
             songDTO.setDescription(faker.backToTheFuture().quote());
             songDTO.setImage(faker.internet().url());
             songDTO.setArtistId(artistRepository.findRandom().getUuid());
@@ -105,6 +118,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         songRepository.flush();
     }
+
     private void createSongOrder() {
         System.out.println("InitDataLoader.createSongOrder");
         long countInsert = NB_SONGORDER - songOrderRepository.count();
@@ -116,6 +130,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         songOrderRepository.flush();
     }
+
     private void createArtist() {
         System.out.println("InitDataLoader.createArtist");
         long countInsert = NB_ARTIST - artistRepository.count();
@@ -128,6 +143,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         artistRepository.flush();
     }
+
     private void createAlbum() {
         System.out.println("InitDataLoader.createAlbum");
         long countInsert = NB_ALBUM - albumRepository.count();
@@ -141,6 +157,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         albumRepository.flush();
     }
+
     private void createPlaylist() {
         System.out.println("InitDataLoader.createPlaylist");
         long countInsert = NB_PLAYLIST - playlistRepository.count();
@@ -154,6 +171,7 @@ public class InitDataLoader implements CommandLineRunner {
         }
         playlistRepository.flush();
     }
+
     private void createMusicalGenre() {
         System.out.println("InitDataLoader.createMusicalGenre");
         long countInsert = NB_MUSICALGENRE - musicalGenreRepository.count();

@@ -7,6 +7,12 @@ import fr.donovan.spotifish.repository.UserRepository;
 import fr.donovan.spotifish.dto.UserDTO;
 import fr.donovan.spotifish.exception.NotFoundSpotifishException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,9 +25,10 @@ import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Service
-public class UserService  {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private BCryptPasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return this.userRepository.findAll();
@@ -54,6 +61,7 @@ public class UserService  {
         user.setCreatedAt(LocalDateTime.now());
         user.setEndOfActivation(LocalDateTime.now().plusHours(1));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setRoles("ROLE_USER");
         user.setSlug("init slug before pre insert/update sans ca marche pas");
         return userRepository.saveAndFlush(user);
     }
@@ -78,7 +86,7 @@ public class UserService  {
     }
     public User getObjectFromDTO(UserDTO userDTO, User user) {
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setUsername(userDTO.getUsername());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -98,5 +106,21 @@ public class UserService  {
         user.setActivationCode(null);
         return true;
     }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        fr.donovan.spotifish.entity.User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Les cochons sont dans la baie"));
 
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                userGrantedAuthority(user.getRoles())
+        );
+    }
+
+    private Collection<? extends GrantedAuthority> userGrantedAuthority(String jsonRoles) {
+        Collection<? extends GrantedAuthority> grantedAuthorities =  Stream.of(jsonRoles.split(",")).map(SimpleGrantedAuthority::new).toList();
+        System.out.println("grantedAuthorities = " + grantedAuthorities);
+        return grantedAuthorities;
+    }
 }

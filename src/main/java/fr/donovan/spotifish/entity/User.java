@@ -64,11 +64,10 @@ public class User implements SluggerInterface {
     private List<Playlist> playlists = new ArrayList<>();
 
     @ManyToMany
-//    @JoinTable(name = "user_likeableItem",
-//        joinColumns = @JoinColumn(name="user_id"),
-//        inverseJoinColumns = @JoinColumn(name="likeableItem_id"))
     @JsonView(JsonViewsUser.LikeableItems.class)
     private List<LikeableItem> likeableItems = new ArrayList<>();
+
+    private String roles;
 
     @JsonView(JsonViewsUser.Slug.class)
     @Column(nullable = false)
