@@ -51,14 +51,17 @@ public class InitDataLoader implements CommandLineRunner {
     private final MusicalGenreService musicalGenreService;
     private final MusicalGenreRepository musicalGenreRepository;
 
+    private final LikeableItemService likeableItemService;
+    private final LikeableItemRepository likeableItemRepository;
+
     @Override
     public void run(String... args) {
 
         createArtist();
         createMusicalGenre();
-        createUser();
         createAlbum();
         createSong();
+        createUser();
         createPlaylist();
         createSongOrder();
     System.out.println(" end of init !!!");
@@ -75,7 +78,12 @@ public class InitDataLoader implements CommandLineRunner {
             userDTO.setFirstName(faker.name().firstName());
             userDTO.setLastName(faker.name().lastName());
             userDTO.setBirthAt(faker.timeAndDate().birthday(18, 70));
-            userService.persist(userDTO);
+
+            User user = userService.persist(userDTO);
+
+            user.addLike(likeableItemRepository.findRandom());
+            user.addLike(likeableItemRepository.findRandom());
+            userRepository.saveAndFlush(user);
         }
         userRepository.flush();
     }
@@ -92,9 +100,6 @@ public class InitDataLoader implements CommandLineRunner {
             String musicalGenre1 = musicalGenreRepository.findRandom().getUuid();
             String musicalGenre2 = musicalGenreRepository.findRandom().getUuid();
             List<String> list = List.of(musicalGenre1, musicalGenre2);
-            System.out.println("musicalGenre1 = " + musicalGenre1);
-            System.out.println("musicalGenre2 = " + musicalGenre2);
-            System.out.println("list = " + list);
             songDTO.setMusicalGenresId(list);
             songService.persist(songDTO);
         }

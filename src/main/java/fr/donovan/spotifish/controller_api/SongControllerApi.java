@@ -5,7 +5,7 @@ import fr.donovan.spotifish.dto.LeTrucQueDonovanVeut;
 import fr.donovan.spotifish.entity.Song;
 import fr.donovan.spotifish.custom_response.CustomResponse;
 import fr.donovan.spotifish.dto.SongDTO;
-import fr.donovan.spotifish.service.SongService;
+import fr.donovan.spotifish.service.*;
 import fr.donovan.spotifish.json_view.JsonViews;
 import fr.donovan.spotifish.mapping.UrlRoute;
 import jakarta.validation.Valid;
@@ -26,13 +26,13 @@ public class SongControllerApi {
     @GetMapping(path = UrlRoute.URL_SONG)
     @JsonView(JsonViews.SongListJsonViews.class)
     public CustomResponse<List<Song>> list() {
-        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - list()", "Song", this.songService.findAll());
+        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - list()", "Song", songService.findAll());
     }
 
     @GetMapping(path = UrlRoute.URL_SONG + "/{slug}")
     @JsonView(JsonViews.SongShowJsonViews.class)
     public CustomResponse<Song> show(@PathVariable String slug) {
-        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - show("+slug+")", "Song", this.songService.getObjectBySlug(slug));
+        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - show("+slug+")", "Song", songService.getObjectBySlug(slug));
     }
     
     @PostMapping(path = UrlRoute.URL_SONG_NEW)
@@ -56,12 +56,12 @@ public class SongControllerApi {
     @GetMapping(path = UrlRoute.URL_SONG+"/leTrucQueKevinVeut/{search}")
     @JsonView(JsonViews.SongListJsonViews.class)
     public CustomResponse<List<Song>> leTrucQueKevinVeut(@PathVariable String search) {
-        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - leTrucQueKevinVeut()", "Song", this.songService.leTrucQueKevinVeut(search));
+        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - leTrucQueKevinVeut()", "Song", songService.leTrucQueKevinVeut(search));
     }
 
-    @GetMapping(path = UrlRoute.URL_SONG+"/leTrucQueDonovanVeut")
+    @PostMapping(path = UrlRoute.URL_SONG+"/leTrucQueDonovanVeut")
     @JsonView(JsonViews.SongListJsonViews.class)
     public CustomResponse<List<Song>> leTrucQueDonovanVeut(@RequestBody LeTrucQueDonovanVeut leTrucQueDonovanVeut) {
-        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - leTrucQueDonovanVeut()", "Song", this.songService.leTrucQueDonovanVeut(leTrucQueDonovanVeut));
+        return new CustomResponse<>(HttpStatus.OK.value(), "SongControllerApi - leTrucQueDonovanVeut()", "Song", songService.leTrucQueDonovanVeut(leTrucQueDonovanVeut));
     }
 }

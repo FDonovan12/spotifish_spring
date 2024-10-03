@@ -31,13 +31,13 @@ public class GlobalExceptionHandler {
     
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public ResponseException handleException(MethodArgumentNotValidException e) {
         List<ErrorModel> errorModels = processErrors(e);
         return new ResponseException(
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                null,
-                null,
+                HttpStatus.I_AM_A_TEAPOT.value(),
+                "Validation exception with this form",
+                e.getBindingResult().getFieldErrors().getFirst().getObjectName(),
                 errorModels,
                 e.getMessage()
         );

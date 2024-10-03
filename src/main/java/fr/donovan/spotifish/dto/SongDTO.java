@@ -30,5 +30,5 @@ public class SongDTO {
     @NotNull(message = "The artist can't be null")
     private String artistId;
 
-    private List<String> musicalGenresId;
+    private List<String> musicalGenresId = new ArrayList<>();
 }

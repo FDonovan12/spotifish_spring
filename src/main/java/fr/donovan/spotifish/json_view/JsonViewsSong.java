@@ -5,7 +5,7 @@ public class JsonViewsSong {
     public interface AllSong extends Duration, Artist, MusicalGenres, SongOrders, Album, JsonViewsLikeableItem.AllLikeableItem {}
     public interface MinimalSong extends Duration, JsonViewsLikeableItem.MinimalLikeableItem {}
 
-    public interface AllSongWithoutId extends Duration, Artist, MusicalGenres, SongOrders, Album, JsonViewsLikeableItem.AllLikeableItemWithoutId {}
+    public interface AllSongWithoutId extends Duration, Artist, MusicalGenres, JsonViewsSongOrder.StorageSongOrder, Album, JsonViewsLikeableItem.AllLikeableItemWithoutId {}
     public interface MinimalSongWithoutId extends Duration, JsonViewsLikeableItem.MinimalLikeableItemWithoutId {}
 
     public interface Duration  {}

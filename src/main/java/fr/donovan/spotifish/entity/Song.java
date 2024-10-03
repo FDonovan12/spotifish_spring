@@ -37,7 +37,7 @@ public class Song extends LikeableItem  implements SluggerInterface {
     private List<MusicalGenre> musicalGenres = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name="song_id")
+    @JoinColumn(name="song_uuid")
     @JsonView(JsonViewsSong.SongOrders.class)
     private List<SongOrder> songOrders = new ArrayList<>();
 

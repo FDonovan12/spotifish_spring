@@ -24,9 +24,9 @@ import java.util.List;
 @Setter
 public class LeTrucQueDonovanVeut {
 
-    private List<String> playlistIds;
+    private List<String> playlistIds = new ArrayList<>();
 
-    private List<String> artistIds;
+    private List<String> artistIds = new ArrayList<>();
 
-    private List<String> musicalGenreIds;
+    private List<String> musicalGenreIds = new ArrayList<>();
 }

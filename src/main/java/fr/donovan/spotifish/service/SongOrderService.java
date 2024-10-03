@@ -49,7 +49,8 @@ public class SongOrderService  {
         }
         songOrder = getObjectFromDTO(songOrderDTO, songOrder);
         songOrder.setSlug("init slug before pre insert/update");
-        int count = findAll().size();
+//        int count = songStorageService.getObjectById(songOrderDTO.getSongStorageId()).getSongs().size();
+        int count = 0;
         songOrder.setPosition(count + 1);
         return songOrderRepository.saveAndFlush(songOrder);
     }

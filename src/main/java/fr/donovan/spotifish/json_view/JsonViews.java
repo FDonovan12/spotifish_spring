@@ -19,7 +19,7 @@ public class JsonViews {
     public interface LikeableItemShowJsonViews extends AllJsonViews, AllLikeableItem {}
 
     public interface SongListJsonViews extends AllJsonViews, MinimalSong, MinimalArtist, MinimalMusicalGenre, StorageSongOrder {}
-    public interface SongShowJsonViews extends AllJsonViews, AllSong, MinimalArtist, MinimalMusicalGenre {}
+    public interface SongShowJsonViews extends AllJsonViews, AllSong, StorageSongOrder, MinimalArtist, MinimalMusicalGenre {}
 
     public interface ArtistListJsonViews extends AllJsonViews, MinimalArtist, MinimalSong, MinimalAlbum {}
     public interface ArtistShowJsonViews extends AllJsonViews, AllArtist, MinimalSong, MinimalAlbum {}
@@ -30,8 +30,8 @@ public class JsonViews {
     public interface SongOrderListJsonViews extends AllJsonViews, MinimalSongOrder, MinimalSongStorage, MinimalSong {}
     public interface SongOrderShowJsonViews extends AllJsonViews, AllSongOrder, MinimalSongStorage, MinimalSong {}
 
-    public interface SongStorageListJsonViews extends AllJsonViews, MinimalSongStorage, MinimalSong {}
-    public interface SongStorageShowJsonViews extends AllJsonViews, AllSongStorage, MinimalSong {}
+    public interface SongStorageListJsonViews extends AllJsonViews, MinimalSongStorage, MinimalSongOrder {}
+    public interface SongStorageShowJsonViews extends AllJsonViews, AllSongStorage, SongSongOrder, MinimalSong {}
 
     public interface AlbumListJsonViews extends AllJsonViews, MinimalAlbum, MinimalArtist {}
     public interface AlbumShowJsonViews extends AllJsonViews, AllAlbum, MinimalArtist {}

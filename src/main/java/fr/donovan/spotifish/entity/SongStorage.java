@@ -24,8 +24,9 @@ import java.util.List;
 @DiscriminatorValue("SONG_STORAGE")
 public class SongStorage extends LikeableItem  {
 
-    @OneToMany
-    @JoinColumn(name="songStorage_id")
-    @JsonView(JsonViewsSongStorage.Songs.class)
-    private List<Song> songs = new ArrayList<>();
+    @OneToMany(mappedBy = "songStorage")
+//    @JoinColumn(name="songStorage_uuid")
+    @JsonView(JsonViewsSongStorage.SongOrders.class)
+    private List<SongOrder> songOrders = new ArrayList<>();
+
 }

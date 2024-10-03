@@ -34,6 +34,7 @@ public class SongService  {
     }
     public Song getObjectBySlug(String slug) {
         Optional<Song> optionalSong = songRepository.findBySlug(slug);
+        System.out.println("optionalSong = " + optionalSong.get().getSongOrders());
         return optionalSong.orElseThrow(() -> new NotFoundSpotifishException("SongService - getObjectBySlug("+slug+")", "Song", slug));
     }
 
@@ -81,7 +82,6 @@ public class SongService  {
         song.setDuration(songDTO.getDuration());
         song.setArtist(artistService.getObjectById(songDTO.getArtistId()));
         List<MusicalGenre> musicalGenres = songDTO.getMusicalGenresId().stream().map(musicalGenreService::getObjectById).toList();
-        System.out.println("musicalGenres = " + musicalGenres);
         song.setMusicalGenres(musicalGenres);
         return song;
     }
