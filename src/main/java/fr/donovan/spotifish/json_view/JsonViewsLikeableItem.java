@@ -1,0 +1,17 @@
+package fr.donovan.spotifish.json_view;
+
+public class JsonViewsLikeableItem {
+    
+    public interface AllLikeableItem extends Uuid, Name, Description, Image, CreatedAt, Slug {}
+    public interface MinimalLikeableItem extends Uuid, Name, Description, Image, CreatedAt, Slug {}
+
+    public interface AllLikeableItemWithoutId extends Name, Description, Image, CreatedAt, Slug {}
+    public interface MinimalLikeableItemWithoutId extends Name, Description, Image, CreatedAt, Slug {}
+
+    public interface Uuid  {}
+    public interface Name  {}
+    public interface Description  {}
+    public interface Image  {}
+    public interface CreatedAt  {}
+    public interface Slug  {}
+}
